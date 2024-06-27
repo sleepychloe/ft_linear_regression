@@ -6,7 +6,7 @@
 #    By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/26 19:02:53 by yhwang            #+#    #+#              #
-#    Updated: 2024/06/26 20:25:53 by yhwang           ###   ########.fr        #
+#    Updated: 2024/06/27 01:23:44 by yhwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ endif
 
 run:
 	source $(shell pwd)/miniconda3/bin/activate myenv \
-		&& $(shell pwd)/miniconda3/envs/myenv/bin/python ./srcs/ex.py
+		&& $(shell pwd)/miniconda3/envs/myenv/bin/python ./srcs/main.py
 
 fclean:
 	source $(shell pwd)/miniconda3/etc/profile.d/conda.sh \

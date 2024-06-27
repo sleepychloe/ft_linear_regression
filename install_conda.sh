@@ -12,12 +12,16 @@ install_conda()
 setup_env()
 {
 	source "$DIR/etc/profile.d/conda.sh"
-	"$DIR"/bin/conda config --set auto_activate_base false
-	conda create -n myenv python=3.8 matplotlib pandas -y
-	source "$DIR/bin/activate" myenv
-	export LD_LIBRARY_PATH="$DIR/envs/myenv/lib:$LD_LIBRARY_PATH"
+	"$DIR/bin/conda" config --set auto_activate_base false
+	"$DIR/bin/conda" create -n myenv python=3.8 matplotlib pandas -y
+	conda active myenv
+	conda config --add channels conda-forge
+	conda install -n myenv gcc libstdcxx-ng -y
+	export LD_LIBRARY_PATH="$DIR/envs/myenv/lib:/usr/lib/x86_64-linux-gnu/dri:$LD_LIBRARY_PATH"
+	export LIBGL_DEBUG=verbose
 	export LIBGL_ALWAYS_SOFTWARE=1
 	export QT_QPA_PLATFORM=xcb
+	export MESA_LOADER_DRIVER_OVERRIDE=swrast
 }
 
 if [ ! -f "Miniconda3-latest-Linux-x86_64.sh" ]; then
