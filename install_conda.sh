@@ -14,7 +14,7 @@ setup_env()
 	source "$DIR/etc/profile.d/conda.sh"
 	"$DIR/bin/conda" config --set auto_activate_base false
 	"$DIR/bin/conda" create -n myenv python=3.8 matplotlib pandas -y
-	conda active myenv
+	conda activate myenv
 	conda config --add channels conda-forge
 	conda install -n myenv gcc libstdcxx-ng -y
 	export LD_LIBRARY_PATH="$DIR/envs/myenv/lib:/usr/lib/x86_64-linux-gnu/dri:$LD_LIBRARY_PATH"

@@ -6,41 +6,30 @@
 #    By: yhwang <yhwang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/26 23:15:10 by yhwang            #+#    #+#              #
-#    Updated: 2024/06/27 01:42:42 by yhwang           ###   ########.fr        #
+#    Updated: 2024/07/01 23:56:07 by yhwang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import pandas as pd
 import matplotlib.pyplot as plt
 from LinearRegression import LinearRegression
+import sys
+import signal
+
+g_flag_sigquit = False
+
+def window_close(event):
+        print("\nPlot closed")
+        plt.close('all')
+        sys.exit(0)
 
 def main():
-        # data = pd.read_csv('data.csv')
-
-        # plt.figure(figsize=(10, 6))
-        # plt.scatter(data['km'], data['price'], color='blue', alpha=0.5)
-        # plt.title('Mileage vs. Price')
-        # plt.xlabel('Mileage')
-        # plt.ylabel('Price')
-        # plt.grid(True)
-        # plt.show(block=True)
-        
-        # lr = LinearRegression()
-        
-        # lr.get_theta()
-        
-        # lr.theta1 = 10
-        # lr.theta2 = 20
-        
-        # lr.get_theta()
-
-
         data = pd.read_csv('data.csv')
 
         plt.ion()  # Turn on interactive mode
         fig, ax = plt.subplots(figsize=(10, 6))
         scatter = ax.scatter(data['km'], data['price'], color='blue', alpha=0.5)
-        ax.set_title('Mileage vs. Price')
+        ax.set_title('Mileage vs Price')
         ax.set_xlabel('Mileage')
         ax.set_ylabel('Price')
         ax.grid(True)
@@ -50,15 +39,33 @@ def main():
 
         print("Initial theta values:")
         lr.get_theta()
+        
+        x_values = data['km']
+        y_values = lr.theta1 * x_values + lr.theta2
+        line, = ax.plot(x_values, y_values, color='red', linewidth=2)
+        plt.draw()
 
-        lr.theta1 = 10
-        lr.theta2 = 20
+
+
+        lr.theta1 = -0.016
+        lr.theta2 = 8000
 
         print("Updated theta values:")
         lr.get_theta()
 
-        # Keep the plot open
-        input("Press Enter to close the plot...")
+        y_values = lr.theta1 * x_values + lr.theta2
+        line.set_ydata(y_values)
+        ax.plot(x_values, y_values, color='red', linewidth=2)
+        plt.draw()
+
+
+        fig.canvas.mpl_connect('close_event', window_close)
+
+        try:
+                input("Press Enter to close the plot...")
+                plt.close(fig)
+        except KeyboardInterrupt:
+                plt.close(fig)
 
 if __name__ == "__main__":
         main()
