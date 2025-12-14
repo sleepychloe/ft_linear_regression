@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  linear_regression:
+    build: ./
+    container_name: linear_regression
+    image: linear_regression
+    ports:
+      - "8888:8888"
