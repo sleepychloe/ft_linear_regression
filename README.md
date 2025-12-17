@@ -160,7 +160,7 @@ Derivative wrt θ₁:
 ```
 <br>
 
-#### Multivariable (nD, vector & matrix) <a name="gradient_descent-nd"></a>
+#### Multivariable (nD, vector & matrix) <a name="gradient-descent-nd"></a>
 
 ```
 	θ := θ - α ⋅ 1/m ⋅ Xᵀ ⋅ (Xθ - y)
