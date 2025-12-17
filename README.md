@@ -4,6 +4,27 @@ Tested on Linux
 
 Success 125/100
 
+
+## Lists
+ * [Linear Regression](#linear-regression) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Linear Regression](#linear-regression-linear-regression) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#linear-regression-1d) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Multivariable (nD)](#linear-regression-nd) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Problem Formulation](#linear-regression-problem-formulation) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Cost Function (MSE, Mean Squared Error)](#linear-regression-cost-function) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#cost-function-1d) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Multivariable (nD)](#cost-function-nd) <br>
+ * [Gradient Descent](#gradient-descent) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Gradient Descent](#gradient-descent-gradient-descent) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#gradient-descent-1d) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Multivariable (nD)](#gradient-descent-nd) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Learning Rate α](#gradient-descent-learning-rate) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Feature Normalization](#gradient-descent-normalization) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#normalize-1d) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Multivariable (nD)](#normalize-nd) <br>
+
+<br>
+
 ## Linear Regression <a name="linear-regression"></a>
 ### Linear Regression <a name="linear-regression-linear-regression"></a>
 
@@ -32,6 +53,7 @@ by assuming a linear relationship between them.<br>
 	
 ```
 <br>
+<br>
 
 ### Problem Formulation <a name="linear-regression-problem-formulation"></a>
 
@@ -45,6 +67,7 @@ We are given a dataset:<br>
 <br>
 Our goal is to find parameters θ such that<br>
 the predicted values ŷ⁽ⁱ⁾ are as close as possible to the true values y⁽ⁱ⁾.<br>
+<br>
 <br>
 
 ### Cost Function (MSE, Mean Squared Error) <a name="linear-regression-cost-function"></a>
@@ -73,8 +96,11 @@ we define a cost function.<br>
 	      y ∈ Rᵐˣ¹
 ```
 <br>
+<br>
+<br>
 
-### Gradient Descent <a name="linear-regression-gradient-descent"></a>
+## Gradient Descent <a name="gradient-descent"></a>
+### Gradient Descent <a name="gradient-descent-gradient-descent"></a>
 
 Gradient Descent is an iterative optimization algorithm<br>
 used to minimize the cost function.<br>
@@ -208,5 +234,23 @@ in the ⓐ : ── ( θᵀXᵀXθ - 2θᵀXᵀy + yᵀy),
 
 ```
 <br>
+<br>
+
+### Learning Rate α <a name="gradient-descent-learning-rate"></a>
 
 
+<br>
+<br>
+
+### Feature Normalization <a name="gradient-descent-normalization"></a>
+
+<br>
+
+#### Single variable (1D) <a name="normalize-1d"></a>
+
+<br>
+
+#### Multivariable (nD) <a name="normalize-nd"></a>
+
+<br>
+<br>
