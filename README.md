@@ -7,7 +7,12 @@ Success 125/100
 
 ## Lists
  * [Demo](#demo) <br>
- * [Installation & Usage](#installation-usage) <br>
+ * [Project ft_linear_regression](#project-ft-linear_regression) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Mandatory Part](#project-mandatory) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Generalization Beyond the Subject](#project-beyond-mandatory) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Bonus Part](#project-bonus) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Standard Regression Metrics](#project-bonus-1) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Early Stopping via Cost Convergence](#project-bonus-2) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Installation](#installation) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Usage](#usage) <br>
  * [Linear Regression](#linear-regression) <br>
@@ -32,12 +37,252 @@ Success 125/100
 
 ## Demo <a name="demo"></a>
 ![Animated GIF](https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_250.gif)
+
 ###### ↳ iteration ≈ 250
 
 <br>
 
 ![Animated GIF](https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_1000.gif)
+
 ###### ↳ iteration = 1000 (max iter)
+
+<br>
+<br>
+<br>
+
+## Project ft_linear_regression <a name="project-ft-linear-regression"></a>
+
+### Mandatory Part <a name="project-mandatory"></a>
+
+This project implements a simple linear regression model with a single feature, as required by the subject.<br>
+
+<br>
+
+1. Training Program
+
+- Reads a dataset containing `mileage`(input feature) and `price`(target value)
+
+- Trains a linear regression model using Gradient Descent
+
+- Initializes parameters as:
+```
+	θ₀ = 0
+	θ₁ = 0
+```
+
+- Iteratively updates parameters using:
+```
+	θ₀ := θ₀ - α ⋅ 1/m ⋅ ∑ (ŷ⁽ⁱ⁾ - y⁽ⁱ⁾)
+	θ₁ := θ₁ - α ⋅ 1/m ⋅ ∑ (ŷ⁽ⁱ⁾ - y⁽ⁱ⁾) ⋅ x⁽ⁱ⁾
+```
+
+- Saves the learned parameters(θ₀, θ₁) for later use
+
+<br>
+
+2. Prediction Program
+
+- Loads the trained parameters θ₀ and θ₁
+
+- Prompts the user for a mileage value
+
+- Predicts the price using:
+```
+	estimatePrice(mileage) = θ₀ + θ₁ ⋅ mileage
+```
+<br>
+<br>
+
+#### Generalization Beyond the Subject <a name="project-beyond-mandatory"></a>
+
+Although the subject only requires simple linear regression with a single feature<br>
+I implemented a generalized linear regression class that supports multiple variables.<br>
+<br>
+This design allows the same implementations to be reused for:<br>
+
+- single-variable regression
+
+- multivariable regression
+
+- future extensions
+
+
+```
+class LinearRegression:
+	def __init__(self):
+		...
+		self.theta: Vector | None = None
+		...
+	...
+	def hypothesis(self, X: Matrix) -> Vector:
+		if self.theta is None:
+			raise RuntimeError("Model is not fitted yet")
+		return X @ self.theta
+
+	def mse_cost(self, X: Matrix, y: Vector) -> float:
+		m = len(y)
+		errors = self.hypothesis(X) - y
+		return (1 / (2 * m)) * np.sum(errors ** 2)
+
+	def gradient_step(self, X: Matrix, y: Vector) -> None:
+		m = len(y)
+		errors = self.hypothesis(X) - y
+		gradient = (1 / m) * (X.T @ errors)
+		self.theta -= self.learning_rate * gradient
+	...
+```
+
+<br>
+To use this generalized implementation for a single feature,<br>
+following transformations are applied:<br>
+
+1. Convert the input feature X into a design matrix
+
+2. Represent parameters θ as a column vector
+
+
+```
+	X_norm = model.normalize_X(x.reshape(-1, 1))
+	model.theta = np.zeros(X_norm.shape[1])
+```
+
+This keeps the mathematical formulation consistent while while respecting subject requirements.<br>
+
+<br>
+<br>
+
+### Bonus Part <a name="project-bonus"></a>
+
+All bonus features described in the subject have been implemented:<br>
+
+- Scatter plot of the dataset to visualize data distribution
+
+- Regression line plotted on the same graph
+
+- The accuracy of the trained model
+
+
+<br>
+<br>
+
+#### Standard Regression Metrics <a name="project-bonus-1"></a>
+
+I have evaluated using 4 standard regression metrics:<br>
+
+1. MSE (Mean Squared Error)
+
+: Penalize large errors more heavily<br>
+  Directly corresponds to the optimized cost function<br>
+
+```
+	MSE = 1/m ⋅ ∑ (ŷ⁽ⁱ⁾ - y⁽ⁱ⁾)²
+```
+
+2. RMSE (Root Mean Squared Error)
+
+: Same unit as the target variable<br>
+  Easier to interpret than MSE<br>
+
+```
+	RMSE = √MSE
+```
+
+3. MAE (Mean Absolute Error)
+
+: Measures avery absolute deviation<br>
+  Less sensitive to outliers than MSE<br>
+
+```
+	MAE = 1/m ⋅ ∑ | ŷ⁽ⁱ⁾ - y⁽ⁱ⁾ |
+```
+
+4. Coefficient of Determination (R²)
+
+: Measures how well the model explains variance in the data<br>
+  R² ≈ 1 indicates a string linear fit<br>
+
+```
+	            1/m ⋅ ∑ (ŷ⁽ⁱ⁾ - y⁽ⁱ⁾)²
+	R² = 1 - ( ──────────────────────── )
+	           1/m ⋅ ∑ (y⁽ⁱ⁾ - y_mean)
+```
+
+<br>
+These metrices provide complementary perspectives on model performance.<br>
+
+
+<br>
+<br>
+
+#### Early Stopping via Cost Convergence <a name="project-bonus-2"></a>
+
+According to the subject, the training program only requires updating θ₀ and θ₁<br>
+using Gradient Descent for a fixed number of iterations.<br>
+In principle, the cost function does not need to be explicitly monitored.<br>
+<br>
+However, in this project, I introduced the cost function (MSE)<br>
+to detect convergence and enable early stopping,<br>
+making the training both more efficient and more numerically robust.<br>
+
+<br>
+<br>
+Gradient Descent is an iterative algorithm that converges asymptotically toward the minimum.<br>
+After a certain number of iterations, parameter updates become negligibly small,<br>
+and further iterations do not significantly improve the model.<br>
+<br>
+Running the algorithm beyond this point:<br>
+
+- Increases computation time unnecessarily
+- Does not meaningfully improve prediction accuracy
+- May accumulate floating-point noise
+
+To address this, I added a convergence-based stopping criterion.<br>
+<br>
+
+- for each iteration, the corrent cost is computed
+- training stopes early if the improvement between cost and previous cost is smaller than ε
+- additional safety checks are included to detect divergence
+
+→ This means that Gradient Descent terminates as soon as it reaches a numerically stable minimum, instead of blindly iterating up to MAX_ITER.<br>
+
+```
+	for i in range(model.max_iter):
+		model.gradient_step(X_norm, y)
+		cost = model.mse_cost(X_norm, y)
+		if abs(prev_cost - cost) < model.epsilon:
+			break
+		elif np.isnan(cost) or cost > 1e12:
+			print("Diverged")
+			break
+		...
+		prev_cost = cost
+```
+
+##### Experimental Observation
+
+I compared two cases:
+
+1. early stopping enabled: training stops when |Δcost| < EPSILON(=1e-5)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ Convergence occurs around 250–260 iterations
+
+2. training runs until MAX_ITER(=1000)
+
+<br>
+
+<img src="https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_250_precision.png" width="485" height="75">
+
+###### ↳ iteration ≈ 250
+
+<img src="https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_1000_precision.png" width="485" height="75">
+
+###### ↳ iteration = 1000 (max iter)
+
+<br>
+The resulting accuracy metrics are nearly identical.<br>
+<br>
+This demonstrates that most of the learning happens in the early phase,<br>
+and that continuing to iterate after convergence provides no practical benefit.<br>
 
 <br>
 <br>
@@ -68,6 +313,8 @@ To run,
 	make
 	(url) http://127.0.0.1:8888
 ```
+
+<br>
 
 To see lists of containers, volumes, images, and networks,
 ```
