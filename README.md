@@ -6,6 +6,7 @@ Success 125/100
 
 
 ## Lists
+ * [Demo](#demo) <br>
  * [Linear Regression](#linear-regression) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Linear Regression](#linear-regression-linear-regression) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#linear-regression-1d) <br>
@@ -22,7 +23,14 @@ Success 125/100
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Feature Normalization](#gradient-descent-normalization) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#normalize-1d) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Multivariable (nD)](#normalize-nd) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Convexity (Linear Regression guarantees a global minimum)](#gradient-descent-convexity) <br>
 
+<br>
+
+## Demo <a name="demo"></a>
+
+<br>
+<br>
 <br>
 
 ## Linear Regression <a name="linear-regression"></a>
@@ -85,7 +93,7 @@ we define a cost function.<br>
 ```
 <br>
 
-#### Multivariable (nD, vectorized) <a name="cost-function-nd"></a>
+#### Multivariable (nD) <a name="cost-function-nd"></a>
 
 ```
 	J(θ) = 1/2m ⋅ ∥Xθ - y∥²
@@ -124,7 +132,9 @@ At each step, we update parameters in the opposite direction(-) of the gradient.
 ```
 <br>
 
-Proof:
+<details>
+<summary><b><ins>Proof</ins></b></summary>
+
 
 ```
 Starting from:
@@ -158,12 +168,15 @@ Derivative wrt θ₁:
 	= 1/m ⋅ ∑ (ŷ⁽ⁱ⁾ - y⁽ⁱ⁾) ⋅ x⁽ⁱ⁾
 
 ```
+
+</details>
 <br>
 
-#### Multivariable (nD, vector & matrix) <a name="gradient-descent-nd"></a>
+#### Multivariable (nD) <a name="gradient-descent-nd"></a>
 
 ```
-	θ := θ - α ⋅ 1/m ⋅ Xᵀ ⋅ (Xθ - y)
+	θ := θ - α ⋅ ∇J(θ)
+	   = θ - α ⋅ 1/m ⋅ Xᵀ ⋅ (Xθ - y)
 
 	Where α is the learning rate
 ```
@@ -171,6 +184,10 @@ Derivative wrt θ₁:
 This works for any number of features,<br>
 including single variable form (as you make form of x as design matrix).<br>
 <br>
+
+
+<details>
+<summary><b><ins>Proof</ins></b></summary>
 
 Proof:
 
@@ -233,24 +250,205 @@ in the ⓐ : ── ( θᵀXᵀXθ - 2θᵀXᵀy + yᵀy),
         → vanishes when differentiated
 
 ```
+
+</details>
 <br>
 <br>
 
 ### Learning Rate α <a name="gradient-descent-learning-rate"></a>
 
+```
+	θ := θ - α ⋅ ∇J(θ)
+	   = θ - α ⋅ 1/m ⋅ Xᵀ ⋅ (Xθ - y)
+
+	Where α is the learning rate
+```
+
+learning rate α: controls how far we move in parameter space per iteration.<br>
+
+- when α is too large: the algorithm may diverge
+- when α is too small: convergence becomes extremely slow
+
+Even though linear regression has a unique global minimum(convex),<br>
+Gradient Descent can still fail numerically if α is poorly chosen.<br>
 
 <br>
 <br>
 
 ### Feature Normalization <a name="gradient-descent-normalization"></a>
 
+Gradient Descent is sensitive to feature scaling.<br>
+Ill-conditioned(highly elongated) cost surface may cause slow and unstable convergence.<br>
+Normalizing features makes the optimization landscape more spherical,<br>
+so a single learning rate α can work well across all parameters.<br>
+
+- Z-score Normalization: A value expressed in standard deviation units that indicates how far a value in a data set deviates from the mean. (adjusts the mean to 0, standard deviation to 1)
+
 <br>
 
 #### Single variable (1D) <a name="normalize-1d"></a>
 
+
+```
+	μ = mean(x)
+	σ = standard deviation(x)
+```
+
+- Normalize x:
+
+```
+	          x - μ
+	x_norm = ───────
+	            σ
+```
+<br>
+
+- Unnormalize x:
+
+```
+	x = x_norm ⋅ σ + μ
+``` 
 <br>
 
 #### Multivariable (nD) <a name="normalize-nd"></a>
 
+
+```
+	μ ∈ Rⁿ where μⱼ = mean of column j
+	σ ∈ Rⁿ where σⱼ = standard deviation of column j
+```
+
+- Normalize X:
+
+```
+	             Xᵢⱼ - μⱼ
+	(X_norm)ᵢⱼ = ────────
+	                σⱼ
+	
+	→ X_norm = (X - 1⋅μᵀ) ⊘ (1⋅σᵀ)
+
+	1 ∈ Rᵐ: a column vector of ones
+	⊘: elementwise division
+```
+
+<br>
+
+- Unnormalize X:
+
+```
+	Xᵢⱼ = (X_norm)ᵢⱼ ⋅ σⱼ + μⱼ
+
+	→ X = (X_norm ⊙ (1⋅σᵀ)) + (1⋅μᵀ)
+
+	⊙: elementwise multiplication
+
+```
+
+<br>
+
+<details>
+<summary><b><ins>The reason why form of `X - 1 ⋅ μᵀ`, not `X - μᵀ`</ins></b></summary>
+
+
+```
+Assumption:
+        X ∈ ℝᵐˣⁿ: design matrix
+        m: number of samples
+        n: number of features
+        each column represents a feature
+        normalization must be performed on a column-by-column basis
+
+Thus,
+        μ ∈ ℝⁿ: the mean of each feature → Vector(size: n)
+        X ∈ ℝᵐˣⁿ → Matrix(size: m*n)
+```
+→ cannot compute n-vector with m*n matrix
+
+
+```
+the meaning of 1 ⋅ μᵀ:
+        1 ∈ ℝᵐ: a column vector in which elements are all 1
+        μᵀ ∈ ℝ¹ˣⁿ
+
+Thus,
+        1 ⋅ μᵀ ∈ Rᵐˣⁿ
+               ┏            ┓
+               ┃ μ₁ μ₂ … μₙ ┃
+        1⋅μᵀ = ┃ μ₁ μ₂ … μₙ ┃
+               ┃ ⋮  ⋮    ⋮  ┃
+               ┃ μ₁ μ₂ … μₙ ┃
+               ┗            ┛
+```
+→ X - 1 ⋅ μᵀ ∈ ℝᵐˣⁿ
+
+</details>
+
+- Unnormalize θ:
+
+```
+	θ′₀ = θ₀ - (θ′)ᵀ ⋅ μ
+	θ′ = θ ⊘ σ
+
+```
+
+<br>
+
+<details>
+<summary><b><ins>Proof</ins></b></summary>
+
+```
+	x_norm = (x - μ) ⊘ σ
+
+	ŷ = θ₀ + θᵀ ⋅ x_norm
+	  = θ₀ + θᵀ ⋅ ( (x - μ) ⊘ σ )
+	  = θ₀ + θᵀ ⋅ (x ⊘ σ) - θᵀ ⋅ (μ ⊘ σ) 
+	  = (θ₀ - θᵀ ⋅ (μ ⊘ σ)) + (θᵀ ⋅ (x ⊘ σ))
+	  = (θ₀ - (θ ⊘ σ)ᵀ ⋅ μ) + (θ ⊘ σ)ᵀ ⋅ x
+	    ╚═════════════════╝   ╚══════╝
+	            θ′₀             (θ′)ᵀ
+
+	∴ θ′ = θ ⊘ σ
+	  θ′₀ = θ₀ - (θ ⊘ σ)ᵀ ⋅ μ
+	      = θ₀ - (θ′)ᵀ ⋅ μ
+```
+
+</details>
+
+<br>
+<br>
+
+### Convexity (Linear Regression guarantees a global minimum) <a name="gradient-descent-convexity"></a>
+
+To explain why linear regression has no local minima<br>
+we show that its cost function J(θ) is convex (bowl-shaped).<br>
+
+A sufficient condition:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If the Hessian matrix ∇²J(θ) is Positive Semi-Definite(PSD),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then J is convex<br>
+
+
+```
+the cost function J(θ)
+        = 1/2m ⋅ (Xθ - y)ᵀ ⋅ (Xθ - y)
+
+1. Gradient ∇J(θ)
+        = 1/m ⋅ Xᵀ ⋅ (Xθ - y)
+        = 1/m ⋅ (XᵀXθ - Xᵀy)
+
+2. Hessian ∇²J(θ)
+        = 1/m ⋅ XᵀX
+
+3. PSD
+        (for any vector z)
+        zᵀ ⋅ XᵀX ⋅ z
+         = (zX)ᵀ ⋅ (zX)
+         = ∥ zX ∥² ≥ 0
+
+4. Conclusion
+        XᵀX is PSD ⇒ ∇²J(θ) is PSD ⇒ J(θ) is convex,
+	there are no local minima.
+        Any stationary point (where ∇J(θ)=0) is a global minimum
+
+```
 <br>
 <br>
