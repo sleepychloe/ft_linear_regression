@@ -7,7 +7,7 @@ Success 125/100
 
 ## Lists
  * [Demo](#demo) <br>
- * [Project ft_linear_regression](#project-ft-linear_regression) <br>
+ * [Project ft_linear_regression](#project-ft-linear-regression) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Mandatory Part](#project-mandatory) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Generalization Beyond the Subject](#project-beyond-mandatory) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Bonus Part](#project-bonus) <br>
@@ -223,8 +223,6 @@ In principle, the cost function does not need to be explicitly monitored.<br>
 However, in this project, I introduced the cost function (MSE)<br>
 to detect convergence and enable early stopping,<br>
 making the training both more efficient and more numerically robust.<br>
-
-<br>
 <br>
 Gradient Descent is an iterative algorithm that converges asymptotically toward the minimum.<br>
 After a certain number of iterations, parameter updates become negligibly small,<br>
@@ -236,8 +234,8 @@ Running the algorithm beyond this point:<br>
 - Does not meaningfully improve prediction accuracy
 - May accumulate floating-point noise
 
-To address this, I added a convergence-based stopping criterion.<br>
 <br>
+To address this, I added a convergence-based stopping criterion.<br>
 
 - for each iteration, the corrent cost is computed
 - training stopes early if the improvement between cost and previous cost is smaller than ε
@@ -258,6 +256,8 @@ To address this, I added a convergence-based stopping criterion.<br>
 		prev_cost = cost
 ```
 
+<br>
+
 ##### Experimental Observation
 
 I compared two cases:
@@ -266,18 +266,19 @@ I compared two cases:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ Convergence occurs around 250–260 iterations
 
-2. training runs until MAX_ITER(=1000)
-
-<br>
-
 <img src="https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_250_precision.png" width="485" height="75">
 
 ###### ↳ iteration ≈ 250
+
+<br>
+
+2. training runs until MAX_ITER(=1000)
 
 <img src="https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_1000_precision.png" width="485" height="75">
 
 ###### ↳ iteration = 1000 (max iter)
 
+<br>
 <br>
 The resulting accuracy metrics are nearly identical.<br>
 <br>
