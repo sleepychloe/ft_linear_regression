@@ -7,6 +7,9 @@ Success 125/100
 
 ## Lists
  * [Demo](#demo) <br>
+ * [Installation & Usage](#installation-usage) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Installation](#installation) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Usage](#usage) <br>
  * [Linear Regression](#linear-regression) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- [Linear Regression](#linear-regression-linear-regression) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋅ [Single variable (1D)](#linear-regression-1d) <br>
@@ -28,6 +31,68 @@ Success 125/100
 <br>
 
 ## Demo <a name="demo"></a>
+![Animated GIF](https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_250.gif)
+###### ↳ iteration ≈ 250
+
+<br>
+
+![Animated GIF](https://github.com/sleepychloe/ft_linear_regression/blob/main/img/iter_1000.gif)
+###### ↳ iteration = 1000 (max iter)
+
+<br>
+<br>
+<br>
+
+## Installation & Usage <a name="installation-usage"></a>
+
+### Installation <a name="installation"></a>
+
+```
+	git clone https://github.com/sleepychloe/ft_linear_regression.git
+	cd ft_linear_regression
+```
+
+If docker and docker-compose is not isntalled, install it via
+```
+	sudo apt install -y docker.io && sudo apt-get install -y docker-compose
+```
+
+<br>
+<br>
+
+### Usage <a name="usage"></a>
+
+To run,
+```
+	cd ft_linear_regression
+	make
+	(url) http://127.0.0.1:8888
+```
+
+To see lists of containers, volumes, images, and networks,
+```
+   make list
+```
+
+To see outputs of containers,
+```
+   make logs
+```
+
+To stop containers,
+```
+   make stop
+```
+
+To restart containers,
+```
+   make restart
+```
+
+To clean every containers, volumes, images, and networks,
+```
+   make fclean
+```
 
 <br>
 <br>
@@ -58,7 +123,6 @@ by assuming a linear relationship between them.<br>
 ```
 	ŷ = θ₀ + θ₁x₁ + θ₂x₂ + ⋯ + θₙxₙ
 	  = Xθ
-	
 ```
 <br>
 <br>
@@ -166,7 +230,6 @@ Derivative wrt θ₁:
 	= 1/2m ⋅ 2 ⋅ ∑ ((θ₀ + θ₁x⁽ⁱ⁾) - y⁽ⁱ⁾) ⋅ x⁽ⁱ⁾
 
 	= 1/m ⋅ ∑ (ŷ⁽ⁱ⁾ - y⁽ⁱ⁾) ⋅ x⁽ⁱ⁾
-
 ```
 
 </details>
@@ -248,7 +311,6 @@ in the ⓐ : ── ( θᵀXᵀXθ - 2θᵀXᵀy + yᵀy),
 
     3. the third term yᵀy is independent of θ
         → vanishes when differentiated
-
 ```
 
 </details>
@@ -341,7 +403,6 @@ so a single learning rate α can work well across all parameters.<br>
 	→ X = (X_norm ⊙ (1⋅σᵀ)) + (1⋅μᵀ)
 
 	⊙: elementwise multiplication
-
 ```
 
 <br>
@@ -388,7 +449,6 @@ Thus,
 ```
 	θ′₀ = θ₀ - (θ′)ᵀ ⋅ μ
 	θ′ = θ ⊘ σ
-
 ```
 
 <br>
@@ -414,7 +474,6 @@ Thus,
 
 </details>
 
-<br>
 <br>
 
 ### Convexity (Linear Regression guarantees a global minimum) <a name="gradient-descent-convexity"></a>
@@ -446,9 +505,8 @@ the cost function J(θ)
 
 4. Conclusion
         XᵀX is PSD ⇒ ∇²J(θ) is PSD ⇒ J(θ) is convex,
-	there are no local minima.
+        there are no local minima.
         Any stationary point (where ∇J(θ)=0) is a global minimum
-
 ```
 <br>
 <br>
