@@ -425,7 +425,7 @@ we define a cost function.<br>
 
 Gradient Descent is an iterative optimization algorithm<br>
 used to minimize the cost function.<br>
-At each step, we update parameters in the opposite direction(-) of the gradient.<br>
+At each step, we update parameters in the opposite direction of the gradient.<br>
 <br>
 
 #### Single variable (1D) <a name="gradient-descent-1d"></a>
@@ -501,7 +501,6 @@ including single variable form (as you make form of x as design matrix).<br>
 <details>
 <summary><b><ins>Proof</ins></b></summary>
 
-Proof:
 
 ```
 Hypothesis:
@@ -657,7 +656,7 @@ so a single learning rate α can work well across all parameters.<br>
 <br>
 
 <details>
-<summary><b><ins>The reason why form of `X - 1 ⋅ μᵀ`, not `X - μᵀ`</ins></b></summary>
+<summary><b><ins>The reason why form of (X - 1 ⋅ μᵀ), not (X - μᵀ)</ins></b></summary>
 
 
 ```
@@ -692,6 +691,8 @@ Thus,
 → X - 1 ⋅ μᵀ ∈ ℝᵐˣⁿ
 
 </details>
+
+<br>
 
 - Unnormalize θ:
 
