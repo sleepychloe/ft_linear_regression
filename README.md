@@ -257,8 +257,9 @@ To address this, I added a convergence-based stopping criterion.<br>
 ```
 
 <br>
+<br>
 
-##### Experimental Observation
+✓ Experimental Observation
 
 I compared two cases:
 
